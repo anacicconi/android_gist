@@ -1,6 +1,7 @@
 package com.cicconi.gist.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,11 @@ class GistAdapter(private val context: Context, private val gists: List<Gist>) :
             .resize(200, 200).centerCrop()
             .placeholder(R.drawable.user_placeholder)
             .into(holder.userImg)
+
+        // replace this by https://medium.com/android-gate/recyclerview-item-click-listener-the-right-way-daecc838fbb9
+        holder.itemView.setOnClickListener {
+            Log.e("BLABLA", "click here")
+        }
     }
 
     override fun getItemCount(): Int {
