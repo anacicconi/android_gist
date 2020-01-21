@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.gist.view.*
 
-class ListAdapter(private val context: Context, private val gists: List<Gist>) : RecyclerView.Adapter<ListAdapter.GistViewHolder>() {
+class GistAdapter(private val context: Context, private val gists: List<Gist>) : RecyclerView.Adapter<GistAdapter.GistViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GistViewHolder {
         return GistViewHolder(LayoutInflater.from(context).inflate(R.layout.gist, parent, false))

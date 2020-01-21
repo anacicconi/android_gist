@@ -11,15 +11,16 @@ import retrofit2.Response
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Retrofit
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.cicconi.gist.adapter.ListAdapter
+import com.cicconi.gist.adapter.GistAdapter
 
 class MainActivity : AppCompatActivity() {
 
     //private var gistUrl: TextView? = null
 
-    private var adapter: ListAdapter?= null;
+    private var adapter: GistAdapter?= null
     private var gists: MutableList<Gist> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         val listRecyclerView: RecyclerView = findViewById(R.id.listRecyclerView)
         listRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        adapter = ListAdapter(this, gists)
+        adapter = GistAdapter(this, gists)
         listRecyclerView.adapter = adapter
 
         //gistUrl = findViewById(R.id.url)
