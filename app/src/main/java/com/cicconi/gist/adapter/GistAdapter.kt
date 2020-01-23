@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cicconi.gist.R
 import com.cicconi.gist.model.Gist
+import com.cicconi.gist.ui.HomeActivity
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.gist.view.*
@@ -34,8 +35,10 @@ class GistAdapter(private val context: Context, private val gists: List<Gist>) :
             .into(holder.userImg)
 
         // replace this by https://medium.com/android-gate/recyclerview-item-click-listener-the-right-way-daecc838fbb9
+        // https://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/
         holder.itemView.setOnClickListener {
-            Log.e("BLABLA", "click here")
+            Log.i(TAG, "click on recycler view item")
+            (context as HomeActivity).openItem(gists.get(position))
         }
     }
 
@@ -50,5 +53,9 @@ class GistAdapter(private val context: Context, private val gists: List<Gist>) :
         val description: TextView = view.tvDescription
         val userLogin: TextView = view.tvUserLogin
         val userImg: ImageView = view.ivUserImg
+    }
+
+    companion object {
+        private val TAG = GistAdapter::class.java.simpleName
     }
 }

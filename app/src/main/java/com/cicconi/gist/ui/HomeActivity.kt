@@ -1,5 +1,6 @@
-package com.cicconi.gist.home
+package com.cicconi.gist.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -56,6 +57,13 @@ class HomeActivity : AppCompatActivity() {
                 Log.d(TAG, "Error: " + t.toString())
             }
         })
+    }
+
+    fun openItem(gist: Gist) {
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra("gist", gist)
+
+        startActivity(intent)
     }
 
     companion object {
