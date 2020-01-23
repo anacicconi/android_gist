@@ -3,4 +3,5 @@
     <string name="gist_url">Gist url</string>
     <string name="gist_position">Gist position</string>
     <string name="public_gists">Public Gists</string>
+    <string name="main_title">Gist</string>
 </resources>
