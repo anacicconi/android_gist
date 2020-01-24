@@ -59,5 +59,23 @@
         app:layout_constraintTop_toBottomOf="@+id/tvDescription"
         tool:text="https://gist.github.com/e0024a92c43c6cb238afa9a577a7cfb6"
         />
+    <TextView
+        android:id="@+id/tvFileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvUrl"
+        tool:text="Lorem Ipsum"
+        />
+    <TextView
+        android:id="@+id/tvFileContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFileName"
+        tool:text="Lorem Ipsum"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

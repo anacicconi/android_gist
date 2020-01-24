@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 import java.io.Serializable as JavaSerializable
 
 data class Gist(
+    var id: String? = null,
     var url: String? = null,
     var description: String? = null,
     var owner: Owner? = null,
@@ -15,7 +16,7 @@ data class Gist(
         var avatar_url: String? = null): JavaSerializable
 
     @Serializable
-    class File(val filename: String? = null): JavaSerializable
+    class File(val filename: String? = null, val content: String?): JavaSerializable
 
     /*@Serializable
     class Files(val file: Map<String, File>? = null) {

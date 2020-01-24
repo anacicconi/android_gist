@@ -32,10 +32,10 @@ class HomeActivity : AppCompatActivity() {
 
         //gistUrl = findViewById(R.id.url)
 
-        getCurrentData()
+        getPublicGists()
     }
 
-    fun getCurrentData() {
+    fun getPublicGists() {
         val service = RetrofitFactory.makeRetrofitService()
         val call: Call<List<Gist>> = service.getAllPublicGists()
         call.enqueue(object : Callback<List<Gist>> {
