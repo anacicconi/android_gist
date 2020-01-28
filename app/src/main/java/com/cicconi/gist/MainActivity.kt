@@ -3,7 +3,7 @@ package com.cicconi.gist
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.cicconi.gist.ui.HomeActivity
+import com.cicconi.gist.ui.home.HomeActivity
 import java.util.*
 import kotlin.concurrent.schedule
 

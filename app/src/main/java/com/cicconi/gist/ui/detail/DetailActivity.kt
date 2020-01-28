@@ -1,4 +1,4 @@
-package com.cicconi.gist.ui
+package com.cicconi.gist.ui.detail
 
 import android.os.Bundle
 import android.util.Log

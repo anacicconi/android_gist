@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cicconi.gist.R
 import com.cicconi.gist.model.Gist
-import com.cicconi.gist.ui.HomeActivity
+import com.cicconi.gist.ui.home.HomeActivity
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.gist.view.*
