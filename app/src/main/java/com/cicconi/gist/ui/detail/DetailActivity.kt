@@ -1,63 +1,51 @@
 package com.cicconi.gist.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.cicconi.gist.R
-import com.cicconi.gist.api.RetrofitFactory
+import com.cicconi.gist.dagger.DaggerAppComponent
 import com.cicconi.gist.model.Gist
 import com.squareup.picasso.Picasso
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import javax.inject.Inject
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(), DetailInterface.UI {
 
-    //private var gist: Gist? = null
+    @Inject
+    lateinit var presenter: DetailInterface.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        val gistOld: Gist? = intent.getSerializableExtra("gist") as? Gist
+        DaggerAppComponent.create().inject(this)
 
-        if(null !== gistOld) {
-            Picasso.get()
-                .load(gistOld.owner?.avatar_url)
-                .resize(200, 200).centerCrop()
-                .placeholder(R.drawable.user_placeholder)
-                .into(ivUserImg)
-            tvUrl.text = gistOld.url
-            tvDescription.text = gistOld.description
-            tvUserLogin.text = gistOld.owner?.login
-        }
+        val gist: Gist? = intent.getSerializableExtra("gist") as? Gist
+        displayGistHeader(gist)
 
-        gistOld?.id?.let {it ->
-            getSingleGist(it)
-                .subscribeOn(Schedulers.io()) // have to subscribe in another thread
-                .observeOn(AndroidSchedulers.mainThread()) // have to come back to the main thread because the other one can't touch the view
-                .subscribe(
-                    { it ->
-                        Log.d(TAG, "Got Gist")
-                        tvFilename.text = it?.files?.entries?.first()?.key
-                        tvFileContent.text = it?.files?.entries?.first()?.value?.content
-                    },
-                    {
-                        Log.d(TAG, "Error: " + it.message)
-                    }
-                )
+        presenter.bind(this)
+
+        gist?.id?.let {it ->
+            presenter.getGistDetail(it)
         }
     }
 
-    fun getSingleGist(id: String): Observable<Gist> {
-        val service = RetrofitFactory.makeRetrofitService()
-        Log.d(TAG, id)
+    private fun displayGistHeader(gist: Gist?) {
+        if(null !== gist) {
+            Picasso.get()
+                .load(gist.owner?.avatar_url)
+                .resize(200, 200).centerCrop()
+                .placeholder(R.drawable.user_placeholder)
+                .into(ivUserImg)
+            tvUrl.text = gist.url
+            tvDescription.text = gist.description
+            tvUserLogin.text = gist.owner?.login
+        }
+    }
 
-        return service.getSingleGist(id)
+    override fun displayGist(gist: Gist) {
+        tvFilename.text = gist.files?.entries?.first()?.key
+        tvFileContent.text = gist.files?.entries?.first()?.value?.content
     }
 
     companion object {
