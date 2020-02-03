@@ -47,8 +47,4 @@ class DetailActivity : AppCompatActivity(), DetailInterface.UI {
         tvFilename.text = gist.files?.entries?.first()?.key
         tvFileContent.text = gist.files?.entries?.first()?.value?.content
     }
-
-    companion object {
-        private val TAG = DetailActivity::class.java.simpleName
-    }
 }

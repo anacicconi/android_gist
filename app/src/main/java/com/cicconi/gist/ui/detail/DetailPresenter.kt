@@ -16,7 +16,6 @@ class DetailPresenter @Inject constructor(): DetailInterface.Presenter {
 
     override fun getGistDetail(id: String) {
         val service = RetrofitFactory.makeRetrofitService()
-        Log.d(TAG, id)
 
         service.getSingleGist(id)
             .subscribeOn(Schedulers.io()) // have to subscribe in another thread

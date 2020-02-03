@@ -21,7 +21,7 @@ object RetrofitFactory {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // without the adapter the observable does not work
             .client(client)
             .build().create(GistInterface::class.java)
     }
