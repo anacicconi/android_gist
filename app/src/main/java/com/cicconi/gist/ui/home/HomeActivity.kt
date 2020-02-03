@@ -18,7 +18,7 @@ class HomeActivity : AppCompatActivity(), HomeInterface.UI {
     lateinit var presenter: HomeInterface.Presenter
 
     private var adapter: GistAdapter?= null
-    private var gists: MutableList<Gist> = ArrayList()
+    private var gistList: MutableList<Gist> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -30,13 +30,14 @@ class HomeActivity : AppCompatActivity(), HomeInterface.UI {
         val listRecyclerView: RecyclerView = findViewById(R.id.listRecyclerView)
         listRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        adapter = GistAdapter(this, gists)
+        adapter = GistAdapter(this, gistList)
         listRecyclerView.adapter = adapter
 
-        presenter.bind(this, gists)
+        presenter.bind(this)
     }
 
-    override fun updateList() {
+    override fun updateList(gists: List<Gist>) {
+        gistList.addAll(gists)
         adapter!!.notifyDataSetChanged()
     }
 
@@ -45,9 +46,5 @@ class HomeActivity : AppCompatActivity(), HomeInterface.UI {
         intent.putExtra("gist", gist)
 
         startActivity(intent)
-    }
-
-    companion object {
-        private val TAG = HomeActivity::class.java.simpleName
     }
 }

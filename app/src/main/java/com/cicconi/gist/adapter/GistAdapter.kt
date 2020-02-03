@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.gist.view.*
 
-class GistAdapter(private val context: Context, private val gists: List<Gist>) : RecyclerView.Adapter<GistAdapter.GistViewHolder>() {
+class GistAdapter(private val context: Context, private val gistList: List<Gist>) : RecyclerView.Adapter<GistAdapter.GistViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GistViewHolder {
         return GistViewHolder(LayoutInflater.from(context).inflate(R.layout.gist, parent, false))
@@ -23,13 +23,13 @@ class GistAdapter(private val context: Context, private val gists: List<Gist>) :
 
     override fun onBindViewHolder(holder: GistViewHolder, position: Int) {
         //holder.positionNumber.text = position.toString()
-        holder.url.text = gists.get(position).url
+        holder.url.text = gistList.get(position).url
         //TODO: add file list
-        holder.filename.text = gists.get(position).files?.entries?.first()?.key
-        holder.description.text = if (gists.get(position).description !== "") gists.get(position).description else "Description missing"
-        holder.userLogin.text = gists.get(position).owner?.login
+        holder.filename.text = gistList.get(position).files?.entries?.first()?.key
+        holder.description.text = if (gistList.get(position).description !== "") gistList.get(position).description else "Description missing"
+        holder.userLogin.text = gistList.get(position).owner?.login
         Picasso.get()
-            .load(gists.get(position).owner?.avatar_url)
+            .load(gistList.get(position).owner?.avatar_url)
             .resize(200, 200).centerCrop()
             .placeholder(R.drawable.user_placeholder)
             .into(holder.userImg)
@@ -38,12 +38,12 @@ class GistAdapter(private val context: Context, private val gists: List<Gist>) :
         // https://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/
         holder.itemView.setOnClickListener {
             Log.i(TAG, "click on recycler view item")
-            (context as HomeActivity).openItem(gists.get(position))
+            (context as HomeActivity).openItem(gistList.get(position))
         }
     }
 
     override fun getItemCount(): Int {
-        return gists.size
+        return gistList.size
     }
 
     class GistViewHolder(view: View) : RecyclerView.ViewHolder(view) {
