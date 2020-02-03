@@ -28,7 +28,7 @@ class GistAdapter(private val context: Context, private val gists: List<Gist>) :
         holder.filename.text = gists.get(position).files?.entries?.first()?.key
         holder.description.text = if (gists.get(position).description !== "") gists.get(position).description else "Description missing"
         holder.userLogin.text = gists.get(position).owner?.login
-        Picasso.with(context)
+        Picasso.get()
             .load(gists.get(position).owner?.avatar_url)
             .resize(200, 200).centerCrop()
             .placeholder(R.drawable.user_placeholder)

@@ -7,6 +7,9 @@ import com.cicconi.gist.R
 import com.cicconi.gist.api.RetrofitFactory
 import com.cicconi.gist.model.Gist
 import com.squareup.picasso.Picasso
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,7 +17,7 @@ import retrofit2.Response
 
 class DetailActivity : AppCompatActivity() {
 
-    private var gist: Gist? = null
+    //private var gist: Gist? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +26,7 @@ class DetailActivity : AppCompatActivity() {
         val gistOld: Gist? = intent.getSerializableExtra("gist") as? Gist
 
         if(null !== gistOld) {
-            Picasso.with(this)
+            Picasso.get()
                 .load(gistOld.owner?.avatar_url)
                 .resize(200, 200).centerCrop()
                 .placeholder(R.drawable.user_placeholder)
@@ -35,31 +38,26 @@ class DetailActivity : AppCompatActivity() {
 
         gistOld?.id?.let {it ->
             getSingleGist(it)
-            tvFilename.text = gist?.files?.entries?.first()?.key
-            tvFileContent.text = gist?.files?.entries?.first()?.value?.content
+                .subscribeOn(Schedulers.io()) // have to subscribe in another thread
+                .observeOn(AndroidSchedulers.mainThread()) // have to come back to the main thread because the other one can't touch the view
+                .subscribe(
+                    { it ->
+                        Log.d(TAG, "Got Gist")
+                        tvFilename.text = it?.files?.entries?.first()?.key
+                        tvFileContent.text = it?.files?.entries?.first()?.value?.content
+                    },
+                    {
+                        Log.d(TAG, "Error: " + it.message)
+                    }
+                )
         }
     }
 
-    fun getSingleGist(id: String) {
+    fun getSingleGist(id: String): Observable<Gist> {
         val service = RetrofitFactory.makeRetrofitService()
         Log.d(TAG, id)
-        val call: Call<Gist> = service.getSingleGist(id)
-        call.enqueue(object : Callback<Gist> {
-            override fun onResponse(call: Call<Gist>?, response: Response<Gist>?) {
 
-                if (200 == response?.code()) {
-                    Log.d(TAG, "Got Gist")
-
-                    response.body()?.let { body ->
-                        gist = body
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<Gist>?, t: Throwable?) {
-                Log.d(TAG, "Error: " + t.toString())
-            }
-        })
+        return service.getSingleGist(id)
     }
 
     companion object {
