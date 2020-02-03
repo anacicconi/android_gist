@@ -6,7 +6,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class HomePresenter @Inject constructor(): HomeInterface.Presenter {
+class HomePresenter @Inject constructor(private val homeRepository: HomeRepository): HomeInterface.Presenter {
 
     private lateinit var activity: HomeInterface.UI
 
@@ -17,10 +17,7 @@ class HomePresenter @Inject constructor(): HomeInterface.Presenter {
     }
 
     fun getPublicGists(activity: HomeInterface.UI) {
-        val service = RetrofitFactory.makeRetrofitService()
-
-        service.getAllPublicGists()
-            .subscribeOn(Schedulers.io()) // have to subscribe in another thread
+        homeRepository.getAllPublicGists()
             .observeOn(AndroidSchedulers.mainThread()) // have to come back to the main thread because the other one can't touch the view
             .subscribe(
                 { it ->
